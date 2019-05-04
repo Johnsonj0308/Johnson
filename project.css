@@ -1,0 +1,160 @@
+body
+{
+    margin: 10px;
+    padding: 10px;
+    display: flex;
+    height: 100vh;
+    font-family: sans-serif;
+    background: #000;
+}
+div#Main
+{
+    position: absolute;
+    top: 0%;
+    left: 10%;
+    height : 200px;
+	width : 100%;
+}
+div#box1
+{
+    position: absolute;
+    top: 20%;
+    left: 20%;
+	height : 100px;
+	width : 30%;
+}
+div#box2
+{
+    position: absolute;
+    top: 20%;
+    left: 40%;
+	height :100px;
+	width : 30%;
+}
+div#box3
+{
+    position: absolute;
+    top: 20%;
+    left: 60%;
+	height :100px;
+	width : 30%;
+}
+div.showbox
+{
+    position: absolute;
+    top: 40%;
+    left: 20%;
+    width: 60%; 
+    height: 1050px;
+    border-width: 1px; 
+    border-style:dotted;
+    border-color: azure;
+}
+
+input
+{
+    color: white;
+    background-color: black;
+    float:right;
+    width: 100%;
+    height: 30px;
+    border-width: 0;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: 1s;
+    transition-delay: 0s;
+}
+input:hover
+{
+    background-color: white;
+    color: black;
+}
+
+a
+{
+    position: absolute;
+    display: block;
+    padding: 20px 40px;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #fff;
+    font-size: 24px;
+    letter-spacing: 2px;  
+    overflow: hidden;
+}
+a:before
+{
+    content: '';
+    position: absolute;
+    width: 5%;
+    height:90%;
+    top: 5%;
+    left:100%;
+    background: white;
+    transition: 0.3s;
+    transition-delay: 0.3s;
+}
+a:hover:before
+{
+    left: 2%;    
+}
+a span:nth-child(odd)
+{
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: #fff;
+    transition: 0.5s ease-in-out;
+}
+a span:nth-child(1)
+{
+    top:0;
+    left: 50%;
+}
+a span:nth-child(3)
+{
+    bottom: 0;
+    right: -50%;
+}
+a:hover span:nth-child(1)
+{
+    top:0;
+    left: -50%;
+}
+a:hover span:nth-child(3)
+{
+    bottom: 0;
+    right: 50%;
+}
+
+a span:nth-child(even)
+{
+    position: absolute;
+    display: block;
+    width: 2px;
+    height: 100%;
+    background: #fff;
+    transition: 0.5s ease-in-out;
+}
+a span:nth-child(2)
+{
+    top:50%;
+    left: 0;
+}
+a span:nth-child(4)
+{
+    bottom: 50%;
+    right: 0;
+}
+a:hover span:nth-child(2)
+{
+    top:-50%;
+    left: 0;
+}
+a:hover span:nth-child(4)
+{
+    bottom: -50%;
+    right: 0;
+}

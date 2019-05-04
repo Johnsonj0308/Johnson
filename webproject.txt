@@ -1,0 +1,168 @@
+function game() {
+    var canvas = document.getElementById("mycanvas");
+    document.getElementById("button").setAttribute("style", "display:none");
+    var ctx = canvas.getContext("2d");
+    var ballRadius = 10;
+    var x = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var y = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var dy = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    var manHeight = 90;
+    var manWidth = 50;
+    var manX = canvas.width - manWidth;
+    var manY = canvas.height - manHeight - 100;
+    var rightPressed = false;
+    var leftPressed = false;
+    var barrierPressed = false;
+    var barrierActive = false;
+    var barrierTime = 0;
+    var score = 0;
+    var lives = 3;
+    var time = 0;
+    var level = 1;
+    for (var k = 0; k < 10; k++) {
+        x[k] = Math.random() * canvas.width;
+        dy[k] = 2 + Math.random() * 1;
+    }
+    document.addEventListener("keydown", keyDownHandler, false);
+    document.addEventListener("keyup", keyUpHandler, false);
+
+    function keyDownHandler(e) {
+        if (e.keyCode == 68) {
+            rightPressed = true;
+        }
+        else if (e.keyCode == 65) {
+            leftPressed = true;
+        }
+        else if (e.keyCode == 75)
+            barrierPressed = true;
+    }
+    function keyUpHandler(e) {
+        if (e.keyCode == 68) {
+            rightPressed = false;
+        }
+        else if (e.keyCode == 65) {
+            leftPressed = false;
+        }
+        else if (e.keyCode == 75)
+            barrierPressed = false;
+    }
+    function drawBall(x, y) {
+        ctx.beginPath();
+        ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.closePath();
+    }
+    function drawMan() {
+        ctx.beginPath();
+        ctx.arc(manX + manWidth / 2, manY + 20, 20, 0, Math.PI * 2);
+        ctx.fillStyle = "#000000";
+        ctx.fill();
+        ctx.moveTo(manX + manWidth / 2, manY + 40);
+        ctx.lineTo(manX + manWidth / 2 + 25, manY + 60);
+        ctx.moveTo(manX + manWidth / 2, manY + 40);
+        ctx.lineTo(manX + manWidth / 2 - 25, manY + 60);
+        ctx.moveTo(manX + manWidth / 2, manY + 40);
+        ctx.lineTo(manX + manWidth / 2, manY + 65);
+        ctx.lineTo(manX + manWidth / 2 - 25, manY + 90);
+        ctx.moveTo(manX + manWidth / 2, manY + 65);
+        ctx.lineTo(manX + manWidth / 2 + 25, manY + 90);
+        ctx.strokeStyle = "#000000";
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.beginPath();
+        if (barrierActive) {
+            ctx.arc(manX + manWidth / 2, manY + manHeight / 2, manHeight / 2 + 10, Math.PI * 0.5, Math.PI * 1.5);
+            ctx.lineWidth = 10;
+            ctx.strokeStyle = "#00FFFF";
+            ctx.stroke();
+            ctx.lineWidth = 1;
+        }
+        ctx.closePath();
+    }
+    function drawScore() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Score: " + score, 8, 20);
+    }
+    function drawLives() {
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "#0095DD";
+        ctx.fillText("Lives: " + lives, canvas.width - 65, 20);
+    }
+    function drawEnergyBar() {
+        ctx.beginPath();
+        ctx.rect(150, 20, barrierTime/2, 20);
+        ctx.fillStyle = "#0095DD";
+        ctx.fill();
+        ctx.beginPath();
+    }
+    function levelUp() {
+        if (time < 1500)
+            time++;
+        else if (level < 10) {
+            level++;
+            time = 0;
+        }
+    }
+    function activeBarrier() {
+        if (barrierPressed && barrierTime) {
+            barrierActive = true;
+            barrierTime--;
+        }
+        else
+            barrierActive = false;
+    }
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (var i = 0; i < level; i++)
+            drawBall(x[i], y[i]);
+        drawMan();
+        drawScore();
+        drawEnergyBar();
+        drawLives();
+        levelUp();
+        activeBarrier();
+        for (var j = 0; j < level; j++) {
+            y[j] += dy[j];
+            if (y[j] + dy[j] - ballRadius > manY && y[j] + dy[j] + ballRadius < manY + manHeight) {
+                if (x[j] + ballRadius > manX && x[j] < manX + manWidth) {
+                    if (!barrierActive)
+                        lives--;
+                    x[j] = Math.random() * canvas.width;
+                    dy[j] = 2 + Math.random() * 1;
+                    y[j] = 0;
+                    if (!lives) {
+                        alert("GAME OVER");
+                        document.location.reload();
+                    }
+                }
+            }
+            if (y[j] + dy[j] > canvas.height - ballRadius) {
+                x[j] = Math.random() * canvas.width;
+                dy[j] = 2 + Math.random() * 1;
+                y[j] = 0;
+            }
+        }
+        if (manX < 0)
+            manX = 0;
+        if (manX === 0 && barrierTime < 1500)
+            barrierTime++;
+        if (rightPressed && manX < canvas.width - manWidth) {
+            manX += 3;
+        }
+        else if (leftPressed && manX > 0) {
+            manX -= 3;
+        }
+        score++;
+    }
+
+    setInterval(draw, 10);
+}
+function start() {
+    var button = document.getElementById("button");
+    button.addEventListener("click", game, false);
+}
+
+window.addEventListener("load", start, false);

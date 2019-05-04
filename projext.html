@@ -1,0 +1,91 @@
+<!DOCTTYPE html>
+<html>
+    <head>
+        <title>Button Hover Effects</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <link rel="stylesheet" type="text/css" href="project.css">
+        <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+		<script type="text/javascript" src="webproject.js"></script>
+        <script type="text/javascript">
+        $(function(){
+            $("#divShow1").addClass('showbox');
+            $("#divShow2").addClass('showbox');
+			$("#divShow3").addClass('showbox');
+            $(".showbox").hide();
+			$('#divShow3').show();
+			$.ajax({
+			url:'ranking.php',
+			data:{
+				name:"",
+				score:"0"
+			},
+			type:'POST',
+			datatype:'html',
+				success: function( output ) {
+					$("#rank").html(output);
+				},
+				error : function(){
+					alert( "Request failed." );
+				}
+			});
+        });
+        function progress(div){
+					$('.showbox').hide();
+					$('#'+div).show();
+					}
+		</script>
+		<style>
+			p,li,h1,td{font-family : Microsoft JhengHei;
+					margin:4px; color: azure};
+		</style>
+    </head>
+    
+    <body>
+        <div id="Main"><h1 style="color: azure">Project</h1></div>
+        <br>
+        <div id="box1"><a href = "webproj.html">開始游戲
+        <span></span><span></span>
+        <span></span><span></span>
+        </a>
+        </div>
+        <div id="box2"><a id="aaa" name="aaa" onclick="progress('divShow1')" href="#">游戲介紹
+        <span></span><span></span>
+        <span></span><span></span>
+        </a>
+        </div>
+        <div id="box3"><a id="aaa" name="aaa" onclick="progress('divShow2')" href="#">專題
+        <span></span><span></span>
+        <span></span><span></span>
+        </a>
+        </div>
+        <div id="divShow1" name="divShow1">
+			<input type="button" id="btnCloseDiv" name="divCloseDiv" value="關閉" onclick="$('#divShow1').hide();" />
+				<h1>遊戲說明</h1>
+				<p>閃避落下的飛彈,活越久越高分</p>
+				<ul>
+				  <li>隨著分數越高,飛彈落下速度會越來越快且數量越來越多</li>
+				  <li>當玩家跑到最左邊時,繼續按住向左(A鍵),即可儲存能量條(左邊的塔)</li>
+				  <li>在有能量的時候按下 K鍵 可消耗能量開啟防護罩</li>
+				  <li>能量條滿時會變成彩色閃爍,此時按下 J鍵 即可消耗所有能量發動必殺技</li>
+				  <li>必殺技: 時間暫停 -> 發射光束 -> 依照消滅的飛彈數量回血</li>
+				  <li>後方尖刺: 玩家如果太靠近右邊,會被牆上的尖刺刺傷(尖刺出現紅框,表示被扣血了)</li>
+				</ul>
+				<h1>基本操作</h1>
+				<ul style="list-style-type: none;" >
+				  <li>A鍵 : 向左(向前跑)</li>
+				  <li>D鍵 : 向右(向前後)</li>
+				  <li>K鍵 : 消耗能量開啟防護罩</li>
+				  <li>J鍵 : 消耗所有能量發動必殺技</li>
+				</ul>
+				<img src="explain.png" width=850  height=540 >
+        </div>
+        <div id="divShow2" name="divShow2">
+			<input type="button" id="btnCloseDiv" name="divCloseDiv" value="關閉" onclick="$('#divShow2').hide();" />
+			<p style="color: azure">蔡承哲 1071534</p>
+        </div>
+		<div id="divShow3" name="divShow3" >
+			<P>RANK</p>
+			<div id = "rank" style="color:white"></div>
+        </div>
+    </body>
+</html>
